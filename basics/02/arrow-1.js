@@ -6,3 +6,8 @@
 // };
 
 // 화살표 함수
+let hi1 = () => {return '안녕하세요?'};
+let hi2 = () => '안녕하세요?';
+
+console.log(hi1());
+console.log(hi2());

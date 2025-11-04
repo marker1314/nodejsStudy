@@ -1,0 +1,21 @@
+{
+  "name": "nodejsstudy",
+  "version": "1.0.0",
+  "description": "이름은 **영어 이름 또는 영문 표기만** 사용해주세요.  \r 예: `juhwan-kim`, `kim-juhwan`",
+  "keywords": [],
+  "homepage": "https://github.com/marker1314/nodejsStudy#readme",
+  "bugs": {
+    "url": "https://github.com/marker1314/nodejsStudy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marker1314/nodejsStudy.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
