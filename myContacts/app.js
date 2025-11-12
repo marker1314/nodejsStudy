@@ -1,12 +1,32 @@
 const express = require("express");
+const dbConnect = require("./config/dbConnect");
+
 const app = express(); //http 모듈과 다르게 express 함수 실행 시 서버 만들어짐
+
+dbConnect();
+
+const router = express.Router(); //Router 객체, router는 인스턴스
 
 app.get("/",(req,res)=>{
     res.send("Hello,Node!");
-}); //http 모듈과 다르게 익스프레스에서는 요청방식을 함수로 받을 수 있음, 즉 if~else문으로 나눌 필요 X(경로와 요청방식을)
-//nodemon을 사용하면 수정한 내용을 저장만 하면 바로 적용, 없으면 서버 껏다가 저장하고 다시 켜야됨
+}); 
+/* http 모듈과 다르게 익스프레스에서는 요청방식을 함수로 받을 수 있음, 즉 if~else문으로 나눌 필요 X(경로와 요청방식을)
+nodemon을 사용하면 수정한 내용을 저장만 하면 바로 적용, 없으면 서버 껏다가 저장하고 다시 켜야됨 */
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true})); 
+
+app.use("/contacts",require("./routes/contactRoutes")); //라우터 파일의 contactROutes 파일을 미드웨어로 사용하겠따./CONTACTS를 통해 유지보수 용이
+
+app.listen(3000,() => {
+    console.log("서버 실행 중");
+});
 
 
+
+
+
+/*
 //연락처 가져오기
 app.get("/contacts",(req,res)=>{
     res.send("Contacts Page");
@@ -31,14 +51,7 @@ app.put("/contacts/:id",(req,res)=>{
 app.delete("/contacts/:id",(req,res)=>{
     res.send(`Delete Contact for ID : ${req.params.id}`);
 });
-
-
-
-app.listen(3000,() => {
-    console.log("서버 실행 중");
-});
-
-
+*/
 
 /*
 [익스프레스를 사용하는 이유]
@@ -78,4 +91,14 @@ app.listen(3000,() => {
 - DELETE : 연락처 수정하기 
 * 라우트 파라미터를 사용해 특정 연락처에만 적용
 
+*/
+
+/*
+[익스프레스 미들웨어]
+- 요청과 응답 중간에 있으면서 요청을 처리하거나 원하는 형태로 응답을 수정하는 기능을 가진 함수
+- 역할 : 요청 전처리 - 서버에 도착하기 전에 실행하는 작업
+- 라우팅 처리 : 라우트 핸들러로 연결한 라우트 코드를 좀 더 읽기 쉽고 관리하기 쉽도록 모듈화하는 
+- 응답 처리 : 서버에서 클라이언트로 응답을 보낼떄 자료를 적절한 형태로 변환하거나 오류를 처리하는 작업 
+
+[라우터 미들웨어] : 라우터 객체를 통해 라우터 코드 정리 
 */
