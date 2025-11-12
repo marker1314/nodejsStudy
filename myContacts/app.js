@@ -1,14 +1,15 @@
 const express = require('express');
+const dbConnect = require('./config/dbConnect');
+
 const app = express();
 
-const router = express.Router();
+dbConnect();
 
-app.get('/', (req, res) => {
+ app.get('/', (req, res) => {
     res.send('Hello, Node!');
 });
 
-// 연락처 가져오기
-
+// 연락처 가져오기 
 
 //app.get('/contacts', (req, res) => {  
 //    res.send('Contacts Page'); 
@@ -18,7 +19,8 @@ app.get('/', (req, res) => {
 //app.post('/contacts', (req, res) => {     
 //    res.send('Create Contacts'); 
 //});
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/contacts", require("./routes/contactRoutes"));
 

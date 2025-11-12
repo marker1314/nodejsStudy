@@ -11,7 +11,7 @@ const getAllContacts = asyncHandler(async (req, res) => {
 // @desc Create a contact
 // @route POST /contacts
 const createContact = asyncHandler(async (req, res) => {
-  // 새 연락처 추가하기
+  // 새 연락처 추가하기 
   console.log(req.body);
   const { name, email, phone } = req.body;
   if (!name || !email || !phone) {
