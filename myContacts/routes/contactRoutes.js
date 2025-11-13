@@ -1,19 +1,14 @@
 const express=require("express");
 const router=express.Router();
+const {getAllContacts,createContact,getContact,
+  updateContact,
+  deleteContact,}=require("../controllers/contactController");
+
 
 
 router.route("/")//route 쓰는거에서 둘다 contacts 라서 공통 단어 빼서 app.js 쪽에 넣음
-    .get((req,res)=>{
-        res.send("Contacts Page");
-    })    //여기에 세미콜론 붙이면 X!! router.route("경로").get().post(); 구조임.
-    .post((req,res)=>{
-        console.log(req.body);
-        //res.send(`Create Contacts`);
-        const{name,email,phone}=req.body;
-        if(!name||!email||!phone){
-            return res.send("필수 값이 입력되지 않았습니다.");
-        }
-    });
+    .get(getAllContacts)    //여기에 세미콜론 붙이면 X!! router.route("경로").get().post(); 구조임.
+    .post(createContact);
 
 router.route(`/:id`)
     .get((req,res)=>{
