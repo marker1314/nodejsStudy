@@ -1,7 +1,16 @@
 const express = require("express");
 const dbConnect = require("./config/dbConnect");
+const mehtodOverride = require(("method-override"))
 
 const app = express(); //http 모듈과 다르게 express 함수 실행 시 서버 만들어짐
+
+//ejs 템플릿 엔진을 쓰기 위한 준비
+app.set("view engine","ejs");
+app.set("views", "./views");
+
+app.use(express.static("./public"));
+
+app.use(mehtodOverride("_method")); //미들웨어로 사용하겠다~
 
 dbConnect();
 

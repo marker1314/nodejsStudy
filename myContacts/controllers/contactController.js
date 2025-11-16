@@ -1,15 +1,22 @@
 const asynHandler = require("express-async-handler");
 const Contact = require("../models/contactModel");
+
+
 //Get all contacts
 //Get /contacts
-
 const getAllContacts = asynHandler(async(req,res)=>{
     const contacts = await Contact.find();
-    res.send(contacts);
+    res.render("index",{contacts:contacts}); //데이터에서 가져온 값을 contacts라는 이름으로 index.ejs로 넘겨줘
 });
 
+//View add Contacts form
+//Get /contacts/add
+const addContactForm =(req,res)=>{
+    res.render("add");
+}
+
 //Create contact
-//POST/contacts
+//POST/contacts/add
 const createContact = asynHandler(async(req,res)=>{
     console.log(req.body);
     const{name,email,phone} =req.body; //구조할당
@@ -26,8 +33,9 @@ const createContact = asynHandler(async(req,res)=>{
 //Get single contact
 const getOneContact = asynHandler(async(req,res)=>{
     const contact = await Contact.findById(req.params.id);
-    res.send(contact);
+    res.render("update",{contact:contact});
 });
+
 //Update single contact
 const updateOneContact = asynHandler(async(req,res)=>{
     const id= req.params.id;
@@ -43,19 +51,14 @@ const updateOneContact = asynHandler(async(req,res)=>{
 
     contact.save();
 
-    res.json(contact);
+    res.redirect("/contacts");
 });
+
 //Delete single contact
+//Delete /contacts/:id
 const deleteOneContact = asynHandler(async(req,res)=>{
-    const id= req.params.id;
-    
-    const contact = await Contact.findById(id);
-    if(!contact){
-        throw new Error("Contact not found.");
-    }
-
-    await Contact.deleteOne();
-    res.send("Deleted")
+    await Contact.findByIdAndDelete(req.params.id);
+    res.redirect("/contacts");
 });
 
-module.exports = {getAllContacts, createContact, getOneContact, updateOneContact, deleteOneContact};
+module.exports = {getAllContacts, createContact, getOneContact, updateOneContact, deleteOneContact, addContactForm,};
