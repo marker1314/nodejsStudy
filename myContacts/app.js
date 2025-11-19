@@ -1,6 +1,6 @@
 const express = require("express");
 const dbConnect = require("./config/dbConnect");
-const mehtodOverride = require(("method-override"))
+const methodOverride = require(("method-override"))
 
 const app = express(); //http 모듈과 다르게 express 함수 실행 시 서버 만들어짐
 
@@ -10,26 +10,28 @@ app.set("views", "./views");
 
 app.use(express.static("./public"));
 
-app.use(mehtodOverride("_method")); //미들웨어로 사용하겠다~
+app.use(methodOverride("_method")); //미들웨어로 사용하겠다~
 
 dbConnect();
 
 const router = express.Router(); //Router 객체, router는 인스턴스
 
-app.get("/",(req,res)=>{
-    res.send("Hello,Node!");
-}); 
+
+
 /* http 모듈과 다르게 익스프레스에서는 요청방식을 함수로 받을 수 있음, 즉 if~else문으로 나눌 필요 X(경로와 요청방식을)
 nodemon을 사용하면 수정한 내용을 저장만 하면 바로 적용, 없으면 서버 껏다가 저장하고 다시 켜야됨 */
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true})); 
 
+app.use("/",require("./routes/loginRoutes")); //라우터 파일의 loginRoutes 파일을 미드웨어로 사용하겠다.
 app.use("/contacts",require("./routes/contactRoutes")); //라우터 파일의 contactROutes 파일을 미드웨어로 사용하겠따./CONTACTS를 통해 유지보수 용이
 
 app.listen(3000,() => {
     console.log("서버 실행 중");
 });
+
+
 
 
 
