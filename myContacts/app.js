@@ -4,6 +4,9 @@ const express=require("express");
 const dbConnect=require("./config/dbConnect");
 const app=express();      //app이 앞으로 우리가 처리할 대상이 되었네. 
 
+app.set("view engine","ejs");
+app.set("views","./views");
+
 dbConnect();
 
 app.get("/",(req,res)=>{

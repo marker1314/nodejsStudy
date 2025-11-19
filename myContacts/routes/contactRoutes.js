@@ -1,9 +1,12 @@
-const express=require("express");
-const router=express.Router();
-const {getAllContacts,createContact,getContact,
+const express = require("express");
+const router = express.Router();
+const {
+  getAllContacts,
+  createContact,
+  getContact,
   updateContact,
-  deleteContact,}=require("../controllers/contactController");
-
+  deleteContact,
+} = require("../controllers/contactController");
 
 
 router.route("/")//route 쓰는거에서 둘다 contacts 라서 공통 단어 빼서 app.js 쪽에 넣음
