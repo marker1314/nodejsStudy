@@ -1,0 +1,52 @@
+const express = require('express');
+const dbConnect = require('./config/dbConnect');
+const methodOverride = require('method-override');
+
+const app = express();
+
+app.set("view engine", "ejs");
+app.set("views", "./views");
+
+app.use(express.static("./public"));
+
+app.use(methodOverride("_method"));
+
+dbConnect();
+
+// // 연락처 가져오기
+// app.get("/contacts", (req, res) => {
+//     res.send("Contacts Page");
+// });
+
+// // 새 연락처 추가하기
+// app.post("/contacts", (req, res) => {
+//     res.send("Create Contacts");
+// });
+
+
+
+// // 연락처 1개 가져오기
+// app.get("/contacts/:id", (req, res) => {
+//     res.send(`View Contacts for ID: ${req.params.id}`);
+// });
+
+// // 연락처 수정하기
+// app.put("/contacts/:id", (req, res) => {
+//     res.send(`Update Contacts for ID: ${req.params.id}`);
+// });
+
+// // 연락처 삭제하기
+// app.delete("/contacts/:id", (req, res) => {
+//     res.send(`Delete Contacts for ID: ${req.params.id}`);
+// });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/", require("./routes/loginRoutes"));
+app.use("/contacts", require("./routes/contactRoutes"));
+
+app.listen(3000, () => {
+    console.log("서버 실행 중");
+});
+
