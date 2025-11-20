@@ -5,15 +5,14 @@ const Contact =require("../models/contactModels")
 
 const getAllContacts= asyncHandler( async(req,res)=>{
     const contacts =await Contact.find();
-    const users=[//배열형태
-        {name: "Kim", email: "kim@abc.def", phone: "12345"},
-        {name: "Lee", email: "lee@abc.def",phone: "56789"},
-    ];
-    res.render("getAll",{users:users});
+    res.render("index",{contacts: contacts});
 });
+const addContactForm=(req,res)=>{
+    res.render("add");
+}
 
 //Create contact
-//POST /contacts
+//POST /contacts/add
 const createContact=asyncHandler(async (req,res)=>{
     console.log(req.body);
         //res.send(`Create Contacts`);
@@ -24,18 +23,17 @@ const createContact=asyncHandler(async (req,res)=>{
         const contact =await Contact.create({
             name,email,phone
         });
-        res.send("Create Contacts");
-
+         res.redirect("/contacts");
 })
 //Get contact
 //GET /contacts/:id
 const getContact=asyncHandler(async (req,res)=>{
-    const contact = await Contact . findById(req.params.id);
-    res.send(contact);
+    const contact = await Contact.findById(req.params.id);
+    res.render("update",{contact:contact});
 });
 
 //Update Contact
-//PUT /contacts/:id
+//PUT /contacts/:id 
 const updateContact = asyncHandler(async(req,res)=>{
     const id=req.params.id;
     const { name,email,phone}=req.body;
@@ -49,21 +47,15 @@ const updateContact = asyncHandler(async(req,res)=>{
 
     contact.save();
 
-    res.json(contact);
+    res.redirect("/contacts");
 });
 //Delete Contact
 //DELETE /contacts/:id
 const deleteContact = asyncHandler(async(req,res)=>{
-   const id=req.params.id;
-
-    const contact=await Contact.findById(id);
-    if(!contact){
-        throw new Error("Contact not found");
-    }
-
-    await Contact.deleteOne();
-    res.send("Deleted");
+   await Contact.findByIdAndDelete(req.params.id);
+   res.redirect("/contacts");
 });
+
 
 module.exports = {
   getAllContacts,
@@ -71,4 +63,5 @@ module.exports = {
   getContact,
   updateContact,
   deleteContact,
+  addContactForm,
 };

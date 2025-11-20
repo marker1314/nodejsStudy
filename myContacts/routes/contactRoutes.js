@@ -6,23 +6,16 @@ const {
   getContact,
   updateContact,
   deleteContact,
+  addContactForm
 } = require("../controllers/contactController");
 
 
 router.route("/")//route 쓰는거에서 둘다 contacts 라서 공통 단어 빼서 app.js 쪽에 넣음
-    .get(getAllContacts)    //여기에 세미콜론 붙이면 X!! router.route("경로").get().post(); 구조임.
-    .post(createContact);
+    .get(getAllContacts) ;   //여기에 세미콜론 붙이면 X!! router.route("경로").get().post(); 구조임.
+   
+router.route("/add").get(addContactForm) .post(createContact);
 
-router.route(`/:id`)
-    .get((req,res)=>{
-        res.send(`View Contact for ID : ${req.params.id}`);})
-    .put((req,res)=>{
-        res.send(`Update Contact for ID : ${req.params.id}`);
-    })
-    .delete((req,res)=>{
-        res.send(`Delete Contacts for ID : ${req.params.id}`);
-    });
-
+router.route("/:id").get(getContact).put(updateContact).delete(deleteContact);
 module.exports=router;
 
 // //연락처 가져오기

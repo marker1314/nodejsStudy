@@ -2,16 +2,20 @@
 //==> 라우트코드는 파일로 저장 후 모듈로 사용
 const express=require("express");
 const dbConnect=require("./config/dbConnect");
+const methodOverride=require("method-override");
 const app=express();      //app이 앞으로 우리가 처리할 대상이 되었네. 
 
 app.set("view engine","ejs");
 app.set("views","./views");
 
+app.use(express.static("./public"));
+
+app.use(methodOverride("_method"));
+
 dbConnect();
 
-app.get("/",(req,res)=>{
-    res.send("Hello,node!");
-}); //이게 라우트 코드임.c
+
+//이게 라우트 코드임.c
 //서버 이름 뒤에 요청방식 & 요청 경로 & 어떤걸 실행할지는 콜백 함수 형태로 제공
 
 //HTTP 모듈 : if, else if 이용 => 경로&요청 방식 체크
@@ -19,6 +23,7 @@ app.get("/",(req,res)=>{
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use("/",require("./routes/loginRoutes"));
 app.use("/contacts",require("./routes/contactRoutes"));
 //미들웨어를 사용했다는 것을 애플리케이션한테 알려줘야함
 //==> app.use(내가 사용한 미들웨어);'
